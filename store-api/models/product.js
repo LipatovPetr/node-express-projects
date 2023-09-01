@@ -5,11 +5,11 @@ const productSchema = mongoose.Schema({
     type: String,
     required: [true, "product must be provided"],
   },
-  name: {
+  price: {
     type: Number,
     required: [true, "product price must be provided"],
   },
-  feachered: {
+  featured: {
     type: Boolean,
     default: false,
   },
