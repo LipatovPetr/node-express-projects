@@ -23,11 +23,18 @@ const dashboard = async (req, res) => {
     throw new CustomAPIError("No token provided", 401);
   }
 
-  const randomNumber = Math.floor(Math.random() * 100);
-  res.status(200).json({
-    msg: "Hello, Peter",
-    secret: `Here is your secrete number ${randomNumber}`,
-  });
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const randomNumber = Math.floor(Math.random() * 100);
+    res.status(200).json({
+      msg: `Hello, ${decoded.username}`,
+      secret: `Here is your secrete number ${randomNumber}`,
+    });
+  } catch {
+    throw new CustomAPIError("Not authorized to access the route", 401);
+  }
 };
 
 module.exports = { login, dashboard };
