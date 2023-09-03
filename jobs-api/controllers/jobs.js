@@ -7,8 +7,19 @@ const getAllJobs = async (req, res) => {
   res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
 };
 
-const getJob = (req, res) => {
-  res.send("get job");
+const getJob = async (req, res) => {
+  console.log(req);
+  const {
+    user: { userId },
+    params: { id: jobId },
+  } = req;
+
+  const job = await Job.findOne({ _id: jobId, createdBy: userId });
+
+  if (!job) {
+    throw new NotFoundError(`No job with id ${jobId}`);
+  }
+  res.status(StatusCodes.OK).json(job);
 };
 
 const createJob = async (req, res) => {
@@ -17,11 +28,11 @@ const createJob = async (req, res) => {
   res.status(StatusCodes.CREATED).json(job);
 };
 
-const updateJob = (req, res) => {
+const updateJob = async (req, res) => {
   res.send("create job");
 };
 
-const deleteJob = (req, res) => {
+const deleteJob = async (req, res) => {
   res.send("create job");
 };
 
