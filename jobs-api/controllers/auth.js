@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const StatusCodes = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 const { BadRequestError, UnauthenticatedError } = require("../errors");
 
 const register = async (req, res) => {
@@ -21,7 +21,6 @@ const login = async (req, res) => {
 
   const isPasswordCorrect = await user.comparePasswords(password);
 
-  console.log(isPasswordCorrect);
   if (!isPasswordCorrect) {
     throw new UnauthenticatedError("Invalid Password");
   }
